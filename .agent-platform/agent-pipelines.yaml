@@ -1,0 +1,5 @@
+# The agent pipelines of this repo (smydolf/agent-platform#38).
+# Temporary place until smydolf/agent-platform#14 decides.
+triage:
+  on: [new-item, manual]
+  steps: [triage]
