@@ -1,0 +1,14 @@
+# The platform file of this repo (smydolf/agent-platform#14, temporary name).
+# The worker reads it from the default branch, never from /work.
+build: dotnet build Orders.sln
+test: dotnet test Orders.sln --filter "Category!=E2E"
+e2e: npx playwright test
+run:
+  setup: dotnet run --project tools/DbSetup
+  command: dotnet run --project src/Orders.Api --no-launch-profile --urls http://0.0.0.0:5000
+  port: 5000
+  health: /health
+  env:
+    ConnectionStrings__Orders: "Server=mssql;Database=orders;User Id=sa;Password=${MSSQL_SA_PASSWORD};TrustServerCertificate=True;Encrypt=False"
+    ASPNETCORE_ENVIRONMENT: Development
+services: [mssql:2022]

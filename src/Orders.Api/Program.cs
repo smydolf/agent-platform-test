@@ -10,6 +10,8 @@ builder.Services.AddHttpClient("rates", c => c.BaseAddress = new Uri(config["Exc
 
 var app = builder.Build();
 
+app.MapGet("/health", () => Results.Ok("ok"));
+
 app.MapGet("/orders/{id:int}", async (int id, SqlConnection db) =>
 {
     await db.OpenAsync();
@@ -29,3 +31,5 @@ app.MapGet("/rates/{currency}", async (string currency, IHttpClientFactory http)
     Results.Content(await http.CreateClient("rates").GetStringAsync($"latest?base={currency}"), "application/json"));
 
 app.Run();
+
+public partial class Program;

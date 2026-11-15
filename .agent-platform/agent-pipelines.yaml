@@ -3,3 +3,10 @@
 triage:
   on: [new-item, manual]
   steps: [triage]
+
+coder:
+  on: [tag:ready-for-agent, manual]
+  steps:
+    - rounds: {steps: [coder, tester, reviewer], max: 3}
+    - draft-pr
+    - owner: {text: "Test the change in the app", app: true, talk: coder}
