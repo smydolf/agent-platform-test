@@ -18,7 +18,7 @@ app.MapGet("/orders/{id:int}", async (int id, SqlConnection db) =>
     using var cmd = new SqlCommand("SELECT Id, Total, Currency FROM Orders WHERE Id = @id", db);
     cmd.Parameters.AddWithValue("@id", id);
     using var r = await cmd.ExecuteReaderAsync();
-    return await r.ReadAsync() ? Results.Ok(new { Id = r.GetInt32(0), Total = r.GetDecimal(1), Currency = r.GetString(2) }) : Results.NotFound();
+    return await r.ReadAsync() ? Results.Ok(new { Id = r.GetInt32(0), Total = r.GetDecimal(1), Currency = r.GetString(2) }) : Results.NotFound(new { error = "Order not found" });
 });
 
 app.MapGet("/orders/{id:int}/invoice", async (int id, BlobServiceClient blobs) =>
