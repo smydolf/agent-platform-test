@@ -18,7 +18,7 @@ app.MapGet("/orders/{id:int}", async (int id, SqlConnection db) =>
     using var cmd = new SqlCommand("SELECT Id, Total, Currency FROM Orders WHERE Id = @id", db);
     cmd.Parameters.AddWithValue("@id", id);
     using var r = await cmd.ExecuteReaderAsync();
-    return await r.ReadAsync() ? Results.Ok(new { Id = r.GetInt32(0), Total = r.GetDecimal(1), Currency = r.GetString(2) }) : Results.NotFound();
+    return await r.ReadAsync() ? Results.Ok(OrderMapper.Read(r)) : Results.NotFound();
 });
 
 app.MapGet("/orders/{id:int}/invoice", async (int id, BlobServiceClient blobs) =>
@@ -33,3 +33,11 @@ app.MapGet("/rates/{currency}", async (string currency, IHttpClientFactory http)
 app.Run();
 
 public partial class Program;
+
+public record OrderDto(int Id, decimal Total, string? Currency);
+
+public static class OrderMapper
+{
+    public static OrderDto Read(System.Data.Common.DbDataReader r) =>
+        new(r.GetInt32(0), r.GetDecimal(1), r.IsDBNull(2) ? null : r.GetString(2));
+}
