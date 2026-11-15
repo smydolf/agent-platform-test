@@ -7,6 +7,11 @@ triage:
 coder:
   on: [tag:ready-for-agent, manual]
   steps:
-    - rounds: {steps: [coder, tester, reviewer], max: 3}
+    - rounds:
+        steps:
+          - coder
+          - tester
+          - reviewer: {checks: [agent-platform:review-spec, agent-platform:review-bugs, agent-platform:review-standards, agent-platform:review-security, repo:file-header]}
+        max: 3
     - draft-pr
     - owner: {text: "Test the change in the app", app: true, talk: coder}
