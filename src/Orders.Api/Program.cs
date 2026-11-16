@@ -10,7 +10,7 @@ builder.Services.AddHttpClient("rates", c => c.BaseAddress = new Uri(config["Exc
 
 var app = builder.Build();
 
-app.MapGet("/health", () => Results.Ok("ok"));
+app.MapGet("/health", () => Results.Json(new { status = "ok" }));
 
 app.MapGet("/orders/{id:int}", async (int id, SqlConnection db) =>
 {
