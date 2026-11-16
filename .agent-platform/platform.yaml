@@ -12,3 +12,10 @@ run:
     ConnectionStrings__Orders: "Server=mssql;Database=orders;User Id=sa;Password=${MSSQL_SA_PASSWORD};TrustServerCertificate=True;Encrypt=False"
     ASPNETCORE_ENVIRONMENT: Development
 services: [mssql:2022]
+tracker:
+  kind: github
+  repo: smydolf/agent-platform-test
+  secret: agent-platform-test-tracker
+mcp-servers:
+  - {system: orders-sql, env: prod, catalog: azure-sql, server: sql-orders-prod.database.windows.net, database: orders, test-entity: dbo_Orders, secret: agent-platform-test-orders-sql-prod-read}
+  - {system: orders-sql, env: test, catalog: azure-sql, server: sql-orders-test.database.windows.net, database: TODO, test-entity: dbo_Orders, secret: agent-platform-test-orders-sql-test-read}
