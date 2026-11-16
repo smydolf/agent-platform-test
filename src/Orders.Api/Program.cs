@@ -1,3 +1,4 @@
+// Orders team. See README.md.
 using Azure.Storage.Blobs;
 using Microsoft.Data.SqlClient;
 
