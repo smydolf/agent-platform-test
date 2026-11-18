@@ -28,3 +28,11 @@ coder-once:
         max: 1
     - draft-pr
     - owner: {text: "Test the change in the app", app: true, talk: coder}
+
+# A test pipeline for the investigator (smydolf/agent-platform#55). Test data only until #6 closes.
+client-question:
+  on: [client-question]
+  steps:
+    - investigator: {env: test, time: 20m, turns: 100}
+    - owner: "Check the answer before the client sees it"
+    - post-answer
